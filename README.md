@@ -10,7 +10,7 @@ Alacrtty config with some basic customs(fish and tmux) and Dracula and Poimandre
 
 ## Windows
 ### WSL Bash
-
+The bashrc for wsl-ubuntu with some aliases and global vars.
 ### Terminal
 ![image](https://user-images.githubusercontent.com/65453774/186362523-83caa8ce-9b92-4c57-97e0-b79eba8b8bf6.png)
 
