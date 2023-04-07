@@ -16,6 +16,9 @@ The bashrc for wsl-ubuntu with some aliases and global vars.
 
 The `settings.json` file for windows-Term with the themes I frequently use.  
 **Note:** guids must be changed to the current ones after a port.
+
+## git
+Has a basic skeleton for `.gitconfig`
 ## Fish
 **WIP**
 
