@@ -1,0 +1,11 @@
+[user]
+	name = <username>
+	email = <email>
+	password = <personal access token>
+
+[crendential]
+	helper = cache --time=600
+[url "https://<personal access token>@github.com/"]
+	insteadof = https://github.com/ 
+[core]
+	editor = code --wait
