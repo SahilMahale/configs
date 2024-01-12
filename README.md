@@ -12,10 +12,11 @@ Alacrtty config with some basic customs(fish and tmux) and Dracula and Poimandre
 ### WSL Bash
 The bashrc for wsl-ubuntu with some aliases and global vars.
 ### Terminal
-![image](https://user-images.githubusercontent.com/65453774/186362523-83caa8ce-9b92-4c57-97e0-b79eba8b8bf6.png)
-
 The `settings.json` file for windows-Term with the themes I frequently use.  
 **Note:** guids must be changed to the current ones after a port.
+
+![image](https://user-images.githubusercontent.com/65453774/186362523-83caa8ce-9b92-4c57-97e0-b79eba8b8bf6.png)
+
 
 ## git
 Has a basic skeleton for `.gitconfig`
