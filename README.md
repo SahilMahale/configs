@@ -19,6 +19,14 @@ The `settings.json` file for windows-Term with the themes I frequently use.
 
 ## git
 Has a basic skeleton for `.gitconfig`
+
+## kitty
+Has the main kitty.conf and various color themes that can be set by adding `include ./[theme-name].conf`
+at the end of the kitty.conf file
+> Example: include ./kanagawa_lotus.conf
+![image](https://github.com/SahilMahale/configs/assets/65453774/cd00c397-75e0-433e-b016-c2a1b86aefa0)
+
+
 ## Fish
-**WIP**
+**WIP** (abandoned)
 
