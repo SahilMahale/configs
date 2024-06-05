@@ -1,0 +1,38 @@
+import = [
+"~/.config/alacritty/catppuccin-mocha.toml",
+]
+live_config_reload = true
+[env]
+TERM = "xterm-256color"
+
+[window]
+opacity = 0.98
+blur = true
+decorations = "None" 
+startup_mode = "Maximized"
+dynamic_padding=true
+resize_increments=true
+
+[font]
+normal.family = "IosevkaTerm NFM"
+size=14
+
+[bell]
+#animation="Ease"
+#duration= 100
+#color="#34206b"
+command.program="xkbbell"
+
+[selection]
+save_to_clipboard = true
+
+[cursor]
+style.shape="Beam"
+style.blinking="On"
+vi_mode_style.shape="Block"
+
+[keyboard]
+bindings = [
+{ key = "N", mods = "Control|Shift", action = "CreateNewWindow" },
+]
+
