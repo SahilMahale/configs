@@ -10,10 +10,12 @@ config.automatically_reload_config = true
 config.color_scheme = "Catppuccin Mocha"
 config.window_background_opacity = 0.95
 config.font = wezterm.font_with_fallback({
-	"Fira Code",
+	{ family = "Iosevka", weight = "Regular", style = "Oblique" },
+	{ family = "Symbols Nerd Font Mono", scale = 0.75 },
 })
-config.font = wezterm.font("IosevkaTerm NFM", { italic = false })
-config.font_size = 15
+--config.font = wezterm.font("IosevkaTerm NFM", { italic = false })
+config.font_size = 14
+config.cell_width = 1
 
 --Tab styff
 config.keys = {
