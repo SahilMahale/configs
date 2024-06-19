@@ -46,5 +46,6 @@ config.use_fancy_tab_bar = false
 config.tab_bar_at_bottom = true
 config.max_fps = 240
 config.window_decorations = "NONE"
-
+-- for windows wsl launch
+-- config.default_domain = 'WSL:Ubuntu-20.04'
 return config
