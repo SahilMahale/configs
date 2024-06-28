@@ -10,7 +10,7 @@ config.automatically_reload_config = true
 config.color_scheme = "Catppuccin Mocha"
 config.window_background_opacity = 0.95
 config.font = wezterm.font_with_fallback({
-	{ family = "Iosevka", weight = "Regular", style = "Oblique" },
+	{ family = "JetBrains Mono", weight = "Regular", style = "Normal" },
 	{ family = "Symbols Nerd Font Mono", scale = 0.75 },
 })
 --config.font = wezterm.font("IosevkaTerm NFM", { italic = false })
