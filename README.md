@@ -27,6 +27,9 @@ at the end of the kitty.conf file
 > Example: include ./kanagawa_lotus.conf
 ![image](https://github.com/SahilMahale/configs/assets/65453774/cd00c397-75e0-433e-b016-c2a1b86aefa0)
 
+## Wezterm
+Configs for wezterm 
+![image](https://github.com/SahilMahale/configs/assets/65453774/c76bb9e5-c30f-468e-9ad6-8e3a183a672d)
 
 ## Fish
 **WIP** (abandoned)
