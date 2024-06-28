@@ -19,7 +19,6 @@ config.cell_width = 1
 
 --Tab styff
 config.keys = {
-	{ key = "F9", mods = "ALT", action = wezterm.action.ShowTabNavigator },
 	{ key = "-", mods = "ALT", action = act.ActivateTabRelative(-1) },
 	{ key = "=", mods = "ALT", action = act.ActivateTabRelative(1) },
 	{
