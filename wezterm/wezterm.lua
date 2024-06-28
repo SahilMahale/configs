@@ -7,8 +7,8 @@ local config = wezterm.config_builder()
 local act = wezterm.action
 
 config.automatically_reload_config = true
-config.color_scheme = "Catppuccin Mocha"
-config.window_background_opacity = 0.95
+config.color_scheme = "Rosé Pine (Gogh)"
+config.window_background_opacity = 0.99
 config.font = wezterm.font_with_fallback({
 	{ family = "JetBrains Mono", weight = "Regular", style = "Normal" },
 	{ family = "Symbols Nerd Font Mono", scale = 0.75 },
