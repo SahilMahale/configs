@@ -34,3 +34,7 @@ Configs for wezterm
 ## Fish
 **WIP** (abandoned)
 
+## LinuxRcs
+All are rc files that store is `$HOME/$USER/` ,except**environment** which is stored in `etc/environment`
+>[!NOTE]
+> These vars in particular help in launching apps on d-GPU
