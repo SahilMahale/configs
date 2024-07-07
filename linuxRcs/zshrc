@@ -97,10 +97,13 @@ source $ZSH/oh-my-zsh.sh
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+alias zshconfig="nvim ~/.zshrc"
+alias ohmyzsh="cd ~/.oh-my-zsh && nvim ."
 alias nv='nvim'
 alias nvc='nvim .'
+alias ff='fastfetch'
+alias stDk='sudo systemctl start docker'
+export EDITOR=nvim
 export KITTY_CONFIG=~/.config/kitty/kitty.conf
 
 # pnpm
@@ -110,4 +113,12 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+#nvd - function that emulates how vscode handles opening directories , well kinda
+nvd() {
+  cd $1
+  if [ $? -eq 0 ]; then
+      nvim .
+  fi
+}
 fpath+=${ZDOTDIR:-~}/.zsh_functions
