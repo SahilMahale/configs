@@ -39,6 +39,6 @@ Dependencies (WIP)
 
 
 ## LinuxRcs
-All are rc files that store is `$HOME/$USER/` ,except**environment** which is stored in `etc/environment`
+All are rc files that store is `$HOME/$USER/` ,except **environment** which is stored in `etc/environment`
 >[!NOTE]
-> These vars in particular help in launching apps on d-GPU
+> These vars in particular help in launching apps on d-GPU and also for qt apps theme-ing 
