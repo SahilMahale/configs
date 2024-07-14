@@ -1,0 +1,9 @@
+#!/bin/bash
+temp=$(nvidia-smi -q -i 0 -d temperature | grep -i "gpu current temp" | awk -F: '{split ($2,fields," "); print fields[1]}')
+crit="critical"
+if [ $temp -lt 75 ]; then
+  echo "{\"text\": \"$temp\",\"class\": \"\"}"
+else
+  
+  echo "{\"text\": \"$temp\",\"class\": \"$crit\"}"
+fi

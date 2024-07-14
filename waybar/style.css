@@ -1,0 +1,115 @@
+@import "mocha.css";
+
+* {
+  /* reference the color by using @color-name */
+  color: @text;
+  font-family: Ubuntu Nerd Font, sans-serif;
+  font-size: 14px;
+}
+
+
+window#waybar {
+  /* you can also GTK3 CSS functions! */
+  background-color: shade(@base, 0.9);
+  border: 5px solid alpha(@crust, 0.3);
+  border-radius: 2px;
+}
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#backlight,
+#network,
+#pulseaudio,
+#wireplumber,
+#custom-media,
+#tray,
+#mode,
+#idle_inhibitor,
+#scratchpad,
+#power-profiles-daemon,
+#window,
+#custom-tempgpu,
+#mpd {
+  padding: 1px 10px;
+  border-radius: 2px;
+}
+
+#tray {
+  border: 2px solid alpha(@mauve, 0.6);
+  border-radius: 5px;
+}
+
+#window {
+  background-color: @mantle;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+#power-profiles-daemon.performance {
+  background-color: @red;
+  color: @mantle;
+}
+
+#power-profiles-daemon.balanced {
+  background-color: @teal;
+  color: @mantle;
+}
+
+#power-profiles-daemon.power-saver {
+  background-color: @sapphire;
+  color: @mantle;
+}
+
+#temperature {
+  background-color: @sapphire;
+  color: @mantle;
+}
+
+#temperature.critical {
+  background-color: @red;
+  color: @mantle;
+}
+
+#memory {
+  background-color: @mauve;
+  color: @mantle;
+}
+
+#memory.warning {
+  background-color: @peach;
+  color: @mantle;
+}
+
+#memory.critical {
+  background-color: @red;
+  color: @mantle;
+}
+
+#cpu {
+  background-color: @lavender;
+  color: @mantle;
+}
+
+#cpu.warning {
+  background-color: @maroon;
+  color: @mantle;
+}
+
+#cpu.critical {
+  background-color: @red;
+  color: @mantle;
+}
+
+#custom-tempgpu {
+  background-color: @sapphire;
+  color: @mantle;
+}
+
+#custom-tempgpu.critical {
+  background-color: @red;
+  color: @mantle;
+}
