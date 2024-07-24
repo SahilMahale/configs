@@ -9,3 +9,5 @@
 	insteadof = https://github.com/ 
 [core]
 	editor = code --wait
+[alias]
+  undo = reset --soft HEAD^
