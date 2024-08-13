@@ -110,6 +110,7 @@
     // "thermal-zone": 2,
     // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
     "critical-threshold": 80,
+    "interval": 5,
     // "format-critical": "{temperatureC}°C {icon}",
     "format": "{temperatureC}°C {icon}",
     "format-icons": [
@@ -133,7 +134,8 @@
   },
   "battery": {
     "states": {
-      "good": 85,
+      "full": 100,
+      "good": 65,
       "warning": 30,
       "critical": 15
     },
@@ -275,7 +277,7 @@
   "custom/tempgpu": {
     "return-type": "json",
     "exec": "$HOME/.config/waybar/waygpuTemp",
-    "interval": 10,
+    "interval": 5,
     "critical-threshold": 80,
     // "format-critical": "{temperatureC}°C {icon}",
     "format": "{}°C {icon}",

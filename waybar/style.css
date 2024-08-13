@@ -113,3 +113,23 @@ window#waybar {
   background-color: @red;
   color: @mantle;
 }
+
+#battery.critical {
+  background-color: @red;
+  color: @mantle;
+}
+
+#battery.warning {
+  background-color: @peach;
+  color: @mantle;
+}
+
+#battery.good {
+  background-color: @green;
+  color: @mantle;
+}
+
+#battery.full {
+  background-color: @sapphire;
+  color: @mantle;
+}
