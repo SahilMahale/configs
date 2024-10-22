@@ -34,9 +34,14 @@
   ],
   "hyprland/workspaces": {
     "all-outputs": true,
-    "active-only": true,
+    //"active-only": true,
     "on-click": "activate",
-    "format": "{icon}",
+    "format": "{icon} {name}",
+    "format-icons": {
+      "urgent": "",
+      "active": "",
+      "default": ""
+    },
     "on-scroll-up": "hyprctl dispatch workspace e+1",
     "on-scroll-down": "hyprctl dispatch workspace e-1"
   },
