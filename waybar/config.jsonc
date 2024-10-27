@@ -217,7 +217,7 @@
   "custom/power": {
     "format": "⏻ ",
     "tooltip": true,
-    "on-click": "$HOME/.config/waybar/powermenu.sh"
+    "on-click": "wlogout"
     // "menu-file": "$HOME/.config/waybar/power_menu.xml", // Menu file in resources folder
     //"menu-actions": {
     //"shutdown": "shutdown",
