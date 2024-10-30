@@ -1,33 +1,36 @@
 // -*- mode: jsonc -*-
 {
-  // "layer": "top", // Waybar at top layer
-  // "position": "bottom", // Waybar position (top|bottom|left|right)
-  "height": 40, // Waybar height (to be removed for auto height)
-  // "width": 1280, // Waybar width
-  "spacing": 5, // Gaps between modules (4px)
-  // Choose the order of the modules
+  "layer": "top", // Waybar at top layer
+  "position": "top", // Waybar position (top|bottom|left|right)
+  "exclusive": true,
+  "passthrough": false,
+  "spacing": 3,
+  "fixed-center": true,
+  "ipc": true,
+  "margin-top": 3,
+  "margin-left": 1,
+  "margin-right": 1,
   "modules-left": [
     "custom/media",
     "cpu",
     "memory",
     "temperature",
     "custom/tempgpu",
-    "hyprland/workspaces"
+    "hyprland/workspaces",
+    "idle_inhibitor"
   ],
   "modules-center": [
-    "hyprland/window",
-    "wlr/taskbar"
+    // "hyprland/window",
+    "wlr/taskbar",
+    "clock",
+    "tray"
   ],
   "modules-right": [
-    "tray",
-    "mpd",
-    "idle_inhibitor",
+    "network#speed",
     "pulseaudio",
-    "network",
-    "bluetooth",
+    //"bluetooth", blueman manager in the tray
     "power-profiles-daemon",
     "battery",
-    "clock",
     "backlight",
     "custom/notification",
     "custom/power"
@@ -170,18 +173,38 @@
       "power-saver": " "
     }
   },
-  "network": {
-    // "interface": "wlp2*", // (Optional) To force the use of this interface
-    "format-wifi": "{essid} ({signalStrength}%) ",
-    "format-ethernet": "{ipaddr}/{cidr} 󰈁",
-    "tooltip-format": "{ifname} via {gwaddr}",
-    "format-linked": "{ifname} (No IP) ",
-    "format-disconnected": "Disconnected ⚠",
-    "format-alt": "{ifname}: {ipaddr}/{cidr}"
+  //"network": {
+  //  // "interface": "wlp2*", // (Optional) To force the use of this interface
+  //  "format-wifi": "{essid} ({signalStrength}%) ",
+  //  "format-ethernet": "{ipaddr}/{cidr} 󰈁",
+  //  "tooltip-format": "{ifname} via {gwaddr}",
+  //  "format-linked": "{ifname} (No IP) ",
+  //  "format-disconnected": "Disconnected ⚠",
+  //  "format-alt": "{ifname}: {ipaddr}/{cidr}"
+  //},
+  "network#speed": {
+    "interval": 1,
+    "format": "{ifname}",
+    "format-wifi": "{icon}  {bandwidthUpBytes}  {bandwidthDownBytes}",
+    "format-ethernet": "󰌘   {bandwidthUpBytes}  {bandwidthDownBytes}",
+    "format-disconnected": "󰌙",
+    "tooltip-format": "{ipaddr}",
+    "format-linked": "󰈁 {ifname} (No IP)",
+    "tooltip-format-wifi": "{essid} {icon} {signalStrength}%",
+    "tooltip-format-ethernet": "{ifname} 󰌘",
+    "tooltip-format-disconnected": "󰌙 Disconnected",
+    "max-length": 50,
+    "format-icons": [
+      "󰤯",
+      "󰤟",
+      "󰤢",
+      "󰤥",
+      "󰤨"
+    ]
   },
   "pulseaudio": {
     // "scroll-step": 1, // %, can be a float
-    "format": "{volume}%   {icon}  {format_source}",
+    "format": "{volume}% {icon} {format_source}",
     "format-bluetooth": "{volume}% {icon} {format_source}",
     "format-bluetooth-muted": "󰗿 {icon} {format_source}",
     "format-muted": "󰗿 {format_source}",
@@ -228,7 +251,7 @@
   },
   "custom/notification": {
     "tooltip": false,
-    "format": "{icon}",
+    "format": "{icon} ",
     "format-icons": {
       "notification": "<span foreground='#f38ba8'><sup></sup></span>",
       "none": "",

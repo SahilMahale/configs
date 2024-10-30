@@ -3,16 +3,54 @@
 * {
   /* reference the color by using @color-name */
   color: @text;
-  font-family: Ubuntu Nerd Font, sans-serif;
+  font-family: MartianMono Nerd Font;
   font-size: 14px;
 }
 
 
+/* window#waybar { */
+/*   background-color: shade(@base, 0.9); */
+/*   border: 5px solid alpha(@crust, 0.3); */
+/*   border-radius: 2px; */
+/* } */
 window#waybar {
-  /* you can also GTK3 CSS functions! */
-  background-color: shade(@base, 0.9);
-  border: 5px solid alpha(@crust, 0.3);
-  border-radius: 2px;
+  transition-property: background-color;
+  transition-duration: 0.5s;
+  background: transparent;
+  /*border: 2px solid @overlay0;*/
+  /*background: @theme_base_color;*/
+  border-radius: 14px;
+}
+
+window#waybar.hidden {
+  opacity: 0.2;
+}
+
+#waybar.empty #window {
+  background: none;
+}
+
+/* This section can be use if you want to separate waybar modules */
+.modules-left,
+.modules-center,
+.modules-right {
+  background: #000000;
+  border: 0px solid @overlay0;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-right: 4px;
+  padding-left: 4px;
+  border-radius: 14px;
+
+}
+
+.modules-left,
+.modules-right {
+  border: 0px solid @blue;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-right: 4px;
+  padding-left: 4px;
 }
 
 #clock,
@@ -40,7 +78,15 @@ window#waybar {
 
 #tray {
   border: 2px solid alpha(@mauve, 0.6);
-  border-radius: 5px;
+  border-radius: 14px;
+}
+
+#tray>.passive {
+  -gtk-icon-effect: dim;
+}
+
+#tray>.needs-attention {
+  -gtk-icon-effect: highlight;
 }
 
 #window {
@@ -49,87 +95,82 @@ window#waybar {
   padding-right: 10px;
 }
 
+#power-profiles-daemon {
+  border-radius: 14px;
+}
+
 #power-profiles-daemon.performance {
-  background-color: @red;
-  color: @mantle;
+  color: @red;
 }
 
 #power-profiles-daemon.balanced {
-  background-color: @teal;
-  color: @mantle;
+  color: @teal;
 }
 
 #power-profiles-daemon.power-saver {
-  background-color: @sapphire;
-  color: @mantle;
+  color: @sapphire;
 }
 
 #temperature {
-  background-color: @sapphire;
-  color: @mantle;
+  color: @sapphire;
+  border-radius: 14px;
 }
 
 #temperature.critical {
-  background-color: @red;
-  color: @mantle;
+  color: @red;
 }
 
 #memory {
-  background-color: @mauve;
-  color: @mantle;
+  color: @mauve;
+  border-radius: 14px;
 }
 
 #memory.warning {
-  background-color: @peach;
-  color: @mantle;
+  color: @peach;
 }
 
 #memory.critical {
-  background-color: @red;
-  color: @mantle;
+  color: @red;
 }
 
 #cpu {
-  background-color: @lavender;
-  color: @mantle;
+  color: @lavender;
+  border-radius: 14px;
 }
 
 #cpu.warning {
-  background-color: @maroon;
-  color: @mantle;
+  color: @maroon;
 }
 
 #cpu.critical {
-  background-color: @red;
-  color: @mantle;
+  color: @red;
 }
 
 #custom-tempgpu {
-  background-color: @sapphire;
-  color: @mantle;
+  color: @sapphire;
+  border-radius: 14px;
 }
 
 #custom-tempgpu.critical {
-  background-color: @red;
-  color: @mantle;
+  color: @red;
+}
+
+#battery {
+  border-radius: 14px;
 }
 
 #battery.critical {
-  background-color: @red;
-  color: @mantle;
+  color: @red;
 }
 
 #battery.warning {
-  background-color: @peach;
-  color: @mantle;
+  color: @peach;
 }
 
 #battery.good {
-  background-color: @green;
-  color: @mantle;
+  color: @green;
 }
 
 #battery.full {
-  background-color: @sapphire;
-  color: @mantle;
+  color: @sapphire;
 }
