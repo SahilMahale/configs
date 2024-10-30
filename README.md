@@ -32,10 +32,14 @@ Configs for wezterm
 ![image](https://github.com/SahilMahale/configs/assets/65453774/c76bb9e5-c30f-468e-9ad6-8e3a183a672d)
 
 ## Hypr Rice
-Dependencies (WIP)
-![image](https://github.com/user-attachments/assets/5578f9c0-fbce-48b5-af07-f7ebbbb00439)
+Dependencies (too lazy to list)
+![image](https://github.com/user-attachments/assets/09049310-14c5-4fc4-95d8-97ef892f8d13)
 
-![image](https://github.com/user-attachments/assets/de89589b-ec6e-47d2-9219-e402897b3e07)
+![image](https://github.com/user-attachments/assets/9061a5cf-fb53-4e62-ab4b-cc013b6a6b26)
+
+_PS: Stole most of the styling from [@ahmad9059](https://github.com/ahmad9059) 's swaync and waybar configs_
+
+
 
 
 ## LinuxRcs
