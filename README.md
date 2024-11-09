@@ -32,7 +32,7 @@ Configs for wezterm
 ![image](https://github.com/SahilMahale/configs/assets/65453774/c76bb9e5-c30f-468e-9ad6-8e3a183a672d)
 
 ## Hypr Rice
-Change the Monitor settings in `hyprland.conf` appropriately 
+Change the Monitor settings in `hyprland.conf` appropriately  
 Dependencies (too lazy to list)
 ![image](https://github.com/user-attachments/assets/09049310-14c5-4fc4-95d8-97ef892f8d13)
 
