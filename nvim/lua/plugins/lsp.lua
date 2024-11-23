@@ -180,4 +180,34 @@ return {
       vim.g.coverage_sign_not_covered = "░"
     end,
   },
+  {
+    "stevearc/conform.nvim",
+    opts = {
+      formatters_by_ft = {
+        html = { "prettier" },
+        vue = { "prettier" },
+        javascriptreact = { "prettier" },
+        javascript = { "prettier" },
+        typescript = { "prettier" },
+        scss = { "prettier" },
+        css = { "prettier" },
+        json = { "prettier" },
+        jsonc = { "prettier" },
+        yaml = { "prettier" },
+      },
+      formatters = {
+        prettier = {
+          -- Force prettier to use the .prettierrc
+          prepend_args = { "--config-precedence", "prefer-file" },
+        },
+      },
+    },
+  },
+  {
+    "editorconfig/editorconfig-vim",
+    event = "VeryLazy",
+  },
+  env = {
+    PRETTIER_PLUGINS = (vim.fn.stdpath "data" .. "/mason/packages/prettier/node_modules/prettier-plugin-tailwindcss")
+  },
 }
