@@ -1,0 +1,11 @@
+# Work account settings
+[includeIf "gitdir:~/workMHE/"]
+    path = ~/workMHE/.gitconfig
+
+# Personal account settings
+[includeIf "gitdir:~/personal/"]
+    path = ~/personal/.gitconfig
+[core]
+	editor = nvim
+[alias]
+  undo = reset --soft HEAD^

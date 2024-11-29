@@ -1,0 +1,10 @@
+
+[user]
+	name = 
+	email = 
+	password = <token>
+
+[crendential]
+	helper = cache --time=600
+[url "https://<token>@github.com/"]
+	insteadof = https://github.com/
