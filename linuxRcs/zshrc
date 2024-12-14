@@ -97,11 +97,13 @@ source $ZSH/oh-my-zsh.sh
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
-alias zshconfig="nvim ~/.zshrc"
+alias zrcM="nvim ~/.zshrc"
+alias zrcR="source ~/.zshrc"
 alias ohmyzsh="cd ~/.oh-my-zsh && nvim ."
 alias nv='nvim'
 alias nvc='nvim .'
 alias ff='fastfetch'
+alias lz='lazygit'
 alias stDk='sudo systemctl start docker'
 export EDITOR=nvim
 export KITTY_CONFIG=~/.config/kitty/kitty.conf
@@ -121,4 +123,28 @@ nvd() {
       nvim .
   fi
 }
+#yt_mpv - function to launch a twitch stream in mpv
+yt_mpv(){
+nohup mpv $1 best & 
+}
+#twc_mpv - function to launch a twitch stream in mpv
+twc_mpv(){
+nohup streamlink --player mpv $1 best & 
+}
 fpath+=${ZDOTDIR:-~}/.zsh_functions
+export PATH=$HOME/.local/bin:$PATH
+export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:/home/sahil/go/bin
+export HYPRSHOT_DIR=$HOME/Pictures/Screenshots
+export KUBECONFIG=~/.kube/config
+
+PATH="/home/sahil/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/home/sahil/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/home/sahil/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/home/sahil/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/home/sahil/perl5"; export PERL_MM_OPT;
+
+
+# Load Angular CLI autocompletion.
+source <(ng completion script)
+fortune | cowsay
