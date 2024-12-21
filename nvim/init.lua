@@ -2,11 +2,11 @@
 require("config.lazy")
 require("plugins.user")
 --  to make the background transparent
-vim.cmd([[
-augroup user_colors
-  autocmd!
-  autocmd ColorScheme * highlight Normal ctermbg=NONE guibg=NONE
-augroup END
-]])
+-- vim.cmd([[
+-- augroup user_colors
+--   autocmd!
+--   autocmd ColorScheme * highlight Normal ctermbg=NONE guibg=NONE
+-- augroup END
+-- ]])
 vim.cmd("colorscheme kanagawa")
 vim.o.termguicolors = true
