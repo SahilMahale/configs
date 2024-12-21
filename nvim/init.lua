@@ -8,5 +8,5 @@ augroup user_colors
   autocmd ColorScheme * highlight Normal ctermbg=NONE guibg=NONE
 augroup END
 ]])
-vim.cmd("colorscheme kanagawa_sahil")
+vim.cmd("colorscheme kanagawa")
 vim.o.termguicolors = true

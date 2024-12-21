@@ -77,15 +77,14 @@ hi! link WarningMsg Error
 hi! link NonText Comment
 
 " Define colors
-let s:bg = "#000000"
-let s:fg = "#ffffff"
-let s:gray = "#9c9c9c"
-let s:light_gray = "#cccccc"
-let s:ruler = "#222222"
-let s:scrollbar_bg = "#ffffff33"
-let s:scrollbar_hover = "#ffffff4d"
-let s:scrollbar_active = "#ffffff66"
-let s:comment = "#6A9955"
+" let s:bg = "#000000"
+" let s:gray = "#9c9c9c"
+"let s:light_gray = "#cccccc"
+"let s:ruler = "#222222"
+"let s:scrollbar_bg = "#ffffff33"
+"let s:scrollbar_hover = "#ffffff4d"
+"let s:scrollbar_active = "#ffffff66"
+"let s:comment = "#6A9955"
 
 
 " Tabs
