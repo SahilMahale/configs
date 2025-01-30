@@ -43,12 +43,214 @@ return {
     },
       }
   },
-
+  {
+    "shaunsingh/nord.nvim",
+      name="nord",
+    lazy=false,
+    priority=1000,
+      config = function ()
+      require("nord")
+      end
+  },
+{
+  "oxfist/night-owl.nvim",
+    name="night-owl",
+  lazy = false, -- make sure we load this during startup if it is your main colorscheme
+  priority = 1000, -- make sure to load this before all the other start plugins
+  config = function()
+    require("night-owl").setup()
+  end,
+},
+-- add Poimandres
+{
+  'olivercederborg/poimandres.nvim',
+  lazy = false,
+  priority = 1000,
+  config = function()
+    local p = require("poimandres.palette")
+    require('poimandres').setup {
+        bold_vert_split = false, -- use bold vertical separators
+  dim_nc_background = true, -- dim 'non-current' window backgrounds
+  disable_background = false, -- disable background
+  disable_float_background = false, -- disable background for floats
+  disable_italics = false,
+  highlight_groups = {
+					LspReferenceText = { bg = p.blue4, fg = p.white},
+					LspReferenceRead = { bg = p.blue4,fg = p.white},
+					LspReferenceWrite = { bg = p.blue4,fg = p.white},
+				},
+      -- leave this setup function empty for default config
+      -- or refer to the configuration section
+      -- for configuration options
+    }
+  end,
+},
   -- add gruvbox
   { "ellisonleao/gruvbox.nvim" },
   -- add catppucin
-  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
-  { "rose-pine/neovim", name = "rose-pine" , priority = 1000},
+  { "catppuccin/nvim", name = "catppuccin", priority = 1000,
+    require("catppuccin").setup({
+    transparent_background=false,
+    show_end_of_buffer = false, -- shows the '~' characters after the end of buffers
+    term_colors = false, -- sets terminal colors (e.g. `g:terminal_color_0`)
+    dim_inactive = {
+        enabled = false, -- dims the background color of inactive window
+        shade = "dark",
+        percentage = 0.15, -- percentage of the shade to apply to the inactive window
+    },
+    no_italic = false, -- Force no italic
+    no_bold = false, -- Force no bold
+    no_underline = false, -- Force no underline
+    styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
+        comments = { "italic" }, -- Change the style of comments
+        conditionals = { "italic" },
+        loops = {},
+        functions = {},
+        keywords = {"bold"},
+        strings = {},
+        variables = {},
+        numbers = {},
+        booleans = {},
+        properties = {},
+        types = {},
+        operators = {},
+        -- miscs = {}, -- Uncomment to turn off hard-coded styles
+    },
+    default_integrations = true,
+    color_overrides = {
+				
+			},
+    integrations = {
+        cmp = true,
+        gitsigns = true,
+        nvimtree = true,
+        treesitter = true,
+        notify = false,
+        mini = {
+            enabled = true,
+            indentscope_color = "",
+        },
+      },
+    })
+  },
+{
+  "nyoom-engineering/oxocarbon.nvim"
+  -- Add in any other configuration; 
+  --   event = foo, 
+  --   config = bar
+  --   end,
+},
+{ "AstroNvim/astrotheme",
+    name="astrotheme",
+    config=function ()
+     require("astrotheme").setup({
+        palette="astrodark",
+        style = {
+          transparent = true
+        },
+      })
+    end
+},
+{ "EdenEast/nightfox.nvim",
+    name = "nightfox",
+    config= function ()
+      require("nightfox").setup({
+        options={
+          transparent=true
+        }
+      })
+    end
+  },
+  {
+    "rose-pine/neovim",
+    name = "rose-pine" ,
+    priority = 1000,
+    config = function ()
+      require("rose-pine").setup({
+          variant = "auto", -- auto, main, moon, or dawn
+          dark_variant = "main", -- main, moon, or dawn
+          dim_inactive_windows = false,
+          extend_background_behind_borders = true,
+
+          enable = {
+              terminal = true,
+              legacy_highlights = true, -- Improve compatibility for previous versions of Neovim
+              migrations = true, -- Handle deprecated options automatically
+          },
+
+          styles = {
+              bold = true,
+              italic = false,
+              transparency = true,
+          },
+
+          groups = {
+              border = "muted",
+              link = "iris",
+              panel = "surface",
+
+              error = "love",
+              hint = "iris",
+              info = "foam",
+              note = "pine",
+              todo = "rose",
+              warn = "gold",
+
+              git_add = "foam",
+              git_change = "rose",
+              git_delete = "love",
+              git_dirty = "rose",
+              git_ignore = "muted",
+              git_merge = "iris",
+              git_rename = "pine",
+              git_stage = "iris",
+              git_text = "rose",
+              git_untracked = "subtle",
+
+              h1 = "iris",
+              h2 = "foam",
+              h3 = "rose",
+              h4 = "gold",
+              h5 = "pine",
+              h6 = "foam",
+          },
+
+          palette = {
+              -- Override the builtin palette per variant
+              -- moon = {
+              --     base = '#18191a',
+              --     overlay = '#363738',
+              -- },
+          },
+
+          highlight_groups = {
+              -- Comment = { fg = "foam" },
+              -- VertSplit = { fg = "muted", bg = "muted" },
+          },
+
+        -- Disable all undercurls
+        -- if highlight.undercurl then
+        --     highlight.undercurl = false
+        -- end
+        --
+        -- Change palette colour
+        -- if highlight.fg == palette.pine then
+        --     highlight.fg = palette.foam
+        -- end
+          before_highlight = function(group, highlight, palette)
+        -- Disable all undercurls
+        -- if highlight.undercurl then
+        --     highlight.undercurl = false
+        -- end
+        --
+        -- Change palette colour
+        -- if highlight.fg == palette.pine then
+        --     highlight.fg = palette.foam
+        -- end
+          end,
+})
+    end
+  },
   { "savq/melange-nvim", name = "Melange", priority = 1000 },
   -- change trouble config
   {
