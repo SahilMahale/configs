@@ -207,7 +207,13 @@ return {
     "editorconfig/editorconfig-vim",
     event = "VeryLazy",
   },
-  env = {
-    PRETTIER_PLUGINS = (vim.fn.stdpath "data" .. "/mason/packages/prettier/node_modules/prettier-plugin-tailwindcss")
+  -- Environment variables should be set separately, not as a top-level entry
+  -- Consider moving this to a plugin spec or your init.lua
+  {
+    "neovim/nvim-lspconfig",
+    init = function()
+      vim.env.PRETTIER_PLUGINS = vim.fn.stdpath("data")
+        .. "/mason/packages/prettier/node_modules/prettier-plugin-tailwindcss"
+    end,
   },
 }

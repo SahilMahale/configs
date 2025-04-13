@@ -1,6 +1,5 @@
 -- bootstrap lazy.nvim, LazyVim and your plugins
 require("config.lazy")
-require("plugins.user")
 --  to make the background transparent
 --vim.cmd([[
 -- augroup user_colors
@@ -18,9 +17,9 @@ require("plugins.user")
 --let g:nord_disable_background = v:false
 --colorscheme nord
 --]])
-vim.o.termguicolors = true
+-- vim.o.termguicolors = true
 -- vim.cmd([[colorscheme astrodark]])
-vim.opt.background = "dark" -- set this to dark or light
+-- vim.opt.background = "dark" -- set this to dark or light
 vim.cmd("colorscheme poimandres")
 --Transparency for oxocarbon
 -- vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
