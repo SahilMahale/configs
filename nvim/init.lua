@@ -16,10 +16,13 @@ vim.o.magic = true      -- Use magic patterns in search
 vim.keymap.set('n', '<leader>w', ':w<cr>', { desc = 'Save file' })
 vim.keymap.set('n', '<leader>qq', ':wq<cr>', { desc = 'Save and quit' })
 vim.keymap.set('n', '<leader>q!', ':q!<cr>', { desc = 'Force quit' })
+vim.keymap.set('n', '<leader>qr', ':<cmd>restart <cr>', { desc = 'Restart nvim' })
 vim.keymap.set({ 'n', 'i', 'v' }, '<C-s>', '<Esc>:w<cr>', { desc = 'Save and gotonormal mode' })
 vim.keymap.set('n', '<leader>o', ':update<cr> :source<cr>', { desc = 'Update and source file' })
 -- Copy to system clipboard
 vim.keymap.set({ 'n', 'v' }, '<leader>y', '"+y', { desc = 'Copy to system clipboard' })
+vim.keymap.set({ 'n', 'v' }, '<leader>d', '"+d', { desc = 'Delete to system clipboard' })
+vim.keymap.set('n', '<leader>D', '"+D', { desc = 'Delete line to system clipboard' })
 vim.keymap.set('n', '<leader>Y', '"+Y', { desc = 'Copy line to system clipboard' })
 
 -- Paste from system clipboard
@@ -40,6 +43,7 @@ vim.pack.add({
 	{ src = "https://github.com/folke/snacks.nvim" },
 	{ src = "https://github.com/echasnovski/mini.nvim" },
 	{ src = "https://github.com/folke/which-key.nvim" },
+	{ src = "https://github.com/nvim-tree/nvim-web-devicons" },
 	{ src = "https://github.com/lewis6991/gitsigns.nvim" },
 	{ src = "https://github.com/romgrk/barbar.nvim" },
 	{ src = "https://github.com/nvim-lualine/lualine.nvim" },
@@ -51,8 +55,18 @@ vim.pack.add({
 	{ src = "https://github.com/folke/noice.nvim" },
 	{ src = "https://github.com/MunifTanjim/nui.nvim" },
 	{ src = "https://github.com/rafamadriz/friendly-snippets" },
-	{ src = "https://github.com/saghen/blink.cmp",                         build = "cargo build --release" },
+	{ src = "https://github.com/saghen/blink.cmp" },
+	{ src = "https://github.com/iamcco/markdown-preview.nvim" },
+	{ src = "https://github.com/nvimdev/dashboard-nvim" },
+	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
+	{ src = "https://github.com/nvim-treesitter/nvim-treesitter-textobjects" },
 })
+
+-- Load markdown-preview plugin
+vim.cmd('packadd markdown-preview.nvim')
+
+-- Keep markdown preview open when switching buffers
+vim.g.mkdp_auto_close = 0
 
 require('mini.pick').setup()
 require('mini.pairs').setup()
@@ -60,10 +74,86 @@ require('mini.jump').setup()       -- Quick character jumping
 require('mini.jump2d').setup()     -- 2D jumping within visible lines
 require('mini.cursorword').setup() -- Highlight word under cursor
 require('mini.hipatterns').setup() -- Pattern highlighting
+require('mini.indentscope').setup() -- Pattern highlighting
+require('mini.bracketed').setup({
+	file = { suffix = '' }, -- Disable file navigation mappings
+})
+
+-- Treesitter setup
+require('nvim-treesitter.configs').setup({
+	ensure_installed = { "lua", "javascript", "typescript", "python", "go", "rust", "html", "css", "json", "markdown" },
+	highlight = { enable = true },
+	indent = { enable = true },
+	textobjects = {
+		move = {
+			enable = true,
+			set_jumps = true,
+			goto_next_start = {
+				["]f"] = "@function.outer",
+				["]c"] = "@class.outer",
+			},
+			goto_next_end = {
+				["]F"] = "@function.outer",
+				["]C"] = "@class.outer",
+			},
+			goto_previous_start = {
+				["[f"] = "@function.outer",
+				["[c"] = "@class.outer",
+			},
+			goto_previous_end = {
+				["[F"] = "@function.outer",
+				["[C"] = "@class.outer",
+			},
+		},
+	},
+})
+
+-- Dashboard setup
+require('dashboard').setup({
+	theme = 'hyper',
+	config = {
+		week_header = {
+			enable = true,
+		},
+		shortcut = {
+			{ desc = '󰊳 Mason', group = '@property', action = 'Mason', key = 'u' },
+			{
+				icon = ' ',
+				icon_hl = '@variable',
+				desc = 'Files',
+				group = 'Label',
+				action = 'lua require("snacks").picker.files()',
+				key = 'f',
+			},
+			{
+				desc = ' Recent',
+				group = 'Number',
+				action = 'lua require("snacks").picker.recent()',
+				key = 'r',
+			},
+			{
+				desc = ' Config',
+				group = 'DiagnosticHint',
+				action = 'edit $MYVIMRC',
+				key = 'c',
+			},
+			{
+				desc = ' Quit',
+				group = 'DiagnosticError',
+				action = 'qa',
+				key = 'q',
+			},
+		},
+	},
+})
+
 require('Comment').setup()
 
 -- Blink.cmp setup
 require('blink.cmp').setup({
+	fuzzy = {
+		implementation = 'lua'
+	},
 	keymap = {
 		preset = 'default',
 		['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
@@ -88,7 +178,6 @@ require('blink.cmp').setup({
 	sources = {
 		default = { 'lsp', 'path', 'snippets', 'buffer' },
 	},
-
 	completion = {
 		accept = { auto_brackets = { enabled = true } },
 		menu = {
@@ -173,33 +262,6 @@ snacks.setup({
 	scratch = { enabled = true },
 	bigfile = { enabled = true },
 
-	dashboard = {
-		enabled = true,
-		animate = true,
-		preset = {
-			header = [[
-███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗
-████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║
-██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║
-██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║
-██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║
-╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝]],
-			keys = {
-				{ icon = " ", key = "f", desc = "Find File",    action = function() snacks.picker.files() end },
-				{ icon = " ", key = "n", desc = "New File",     action = ":ene | startinsert" },
-				{ icon = " ", key = "r", desc = "Recent Files", action = function() snacks.picker.recent() end },
-				{ icon = " ", key = "g", desc = "Find Text",    action = function() snacks.picker.grep() end },
-				{ icon = " ", key = "c", desc = "Config",       action = ":e $MYVIMRC" },
-				{ icon = " ", key = "q", desc = "Quit",         action = ":qa" },
-			},
-			-- Remove sections that depend on lazy.nvim
-		},
-		sections = {
-			{ section = "header" },
-			{ section = "keys",  gap = 1, padding = 1 },
-			-- Don't include startup section which tries to use lazy stats
-		},
-	},
 	explorer = { enabled = true },
 	picker = {
 		enabled = true,
@@ -327,6 +389,8 @@ vim.keymap.set('n', '<S-h>', '<Cmd>BufferPrevious<CR>', { desc = 'Previous buffe
 vim.keymap.set('n', '<S-l>', '<Cmd>BufferNext<CR>', { desc = 'Next buffer' })
 vim.keymap.set('n', '<leader>bc', '<Cmd>BufferClose<CR>', { desc = 'Close buffer' })
 vim.keymap.set('n', '<leader>bp', '<Cmd>BufferPin<CR>', { desc = 'Pin buffer' })
+vim.keymap.set('n', '<A-p>m', '<Cmd>MarkdownPreviewToggle<CR>', { desc = 'Toggle MarkDown preview' })
+
 
 --LSP config
 -- Add nvm's current node/npm to PATH for Mason
