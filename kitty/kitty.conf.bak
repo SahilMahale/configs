@@ -6,10 +6,10 @@ update_check_interval 0
 #: kitty has very powerful font management. You can configure
 #: individual font faces and even specify special fonts for particular
 #: characters.
-# font_family      family="Martian Mono" postscript_name=MartianMono-StdMd
-# bold_font        auto
-# italic_font      auto
-# bold_italic_font auto
+ font_family      Martian Mono
+ bold_font        auto
+ italic_font      auto
+ bold_italic_font auto
 
 #: You can specify different fonts for the bold/italic/bold-italic
 #: variants. To get a full list of supported fonts use the `kitty
@@ -197,7 +197,7 @@ font_size 12.0
 #: special keyword: background. Note that if cursor is set to none
 #: then this option is ignored.
 
- cursor_shape block
+# cursor_shape block
 
 #: The cursor shape can be one of block, beam, underline. Note that
 #: when reloading the config this will be changed only if the cursor
@@ -576,7 +576,7 @@ font_size 12.0
 
 #: Performance tuning {{{
 
- repaint_delay 5
+# repaint_delay 10
 
 #: Delay between screen updates (in milliseconds). Decreasing it,
 #: increases frames-per-second (FPS) at the cost of more CPU usage.
@@ -586,7 +586,7 @@ font_size 12.0
 #: refresh rate. Also, to minimize latency when there is pending input
 #: to be processed, this option is ignored.
 
- input_delay 2
+# input_delay 3
 
 #: Delay before input from the program running in the terminal is
 #: processed (in milliseconds). Note that decreasing it will increase
@@ -594,7 +594,7 @@ font_size 12.0
 #: in full screen programs that redraw the entire screen on each loop,
 #: because kitty is so fast that partial screen updates will be drawn.
 
- sync_to_monitor yes
+# sync_to_monitor yes
 
 #: Sync screen updates to the refresh rate of the monitor. This
 #: prevents screen tearing
@@ -748,7 +748,7 @@ font_size 12.0
 #: Fade the text in inactive windows by the specified amount (a number
 #: between zero and one, with zero being fully faded).
 
- # hide_window_decorations yes
+ hide_window_decorations yes
 
 #: Hide the window decorations (title-bar and window borders) with
 #: yes. On macOS, titlebar-only can be used to only hide the titlebar.
@@ -1565,7 +1565,7 @@ mark1_background #ff5555
 #: The full list of actions that can be mapped to key presses is
 #: available here <https://sw.kovidgoyal.net/kitty/actions/>.
 
- kitty_mod ctrl+shift
+# kitty_mod ctrl+shift
 
 #: Special modifier key alias for default shortcuts. You can change
 #: the value of this option to alter all default shortcuts that use
@@ -2222,18 +2222,7 @@ map alt+9 goto_tab 9
 #: }}}
 
 #: }}}
-# Mouse map to open URLs with Ctrl + left click
-mouse_map ctrl+left release grabbed,ungrabbed mouse_handle_click link
+ mouse_map left click ungrabbed no-op
  open_url_with default
- include ./themes/oxocarbon_dark.conf
-# background_tint 0.30
-# background_image /home/sahil/Pictures/Wallpapers/neon-sumer-K8eWS_abimM-unsplash.jpg
-# background_image_layout scaled
+ include ./themes/kanagawa_dragon.conf
 
-
-# BEGIN_KITTY_FONTS
-font_family      family='Martian Mono' postscript_name=MartianMono-StdRg
-bold_font        auto
-italic_font      auto
-bold_italic_font auto
-# END_KITTY_FONTS
