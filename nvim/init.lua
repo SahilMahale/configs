@@ -1,6 +1,6 @@
 vim.o.number = true
 vim.o.relativenumber = true
-vim.o.tabstop = 4
+vim.o.tabstop = 2
 vim.o.signcolumn = "yes"
 vim.o.wrap = false
 vim.g.mapleader = ' '
@@ -60,6 +60,9 @@ vim.pack.add({
 	{ src = "https://github.com/nvimdev/dashboard-nvim" },
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter-textobjects" },
+	{ src = "https://github.com/nvim-lua/plenary.nvim" },
+	{ src = "https://github.com/nvim-telescope/telescope.nvim" },
+	{ src = "https://github.com/piersolenski/import.nvim" },
 })
 
 -- Load markdown-preview plugin
@@ -70,20 +73,21 @@ vim.g.mkdp_auto_close = 0
 
 require('mini.pick').setup()
 require('mini.pairs').setup()
-require('mini.jump').setup()       -- Quick character jumping
-require('mini.jump2d').setup()     -- 2D jumping within visible lines
-require('mini.cursorword').setup() -- Highlight word under cursor
-require('mini.hipatterns').setup() -- Pattern highlighting
+require('mini.jump').setup()        -- Quick character jumping
+require('mini.jump2d').setup()      -- 2D jumping within visible lines
+require('mini.cursorword').setup()  -- Highlight word under cursor
+require('mini.hipatterns').setup()  -- Pattern highlighting
 require('mini.indentscope').setup() -- Pattern highlighting
 require('mini.bracketed').setup({
-	file = { suffix = '' }, -- Disable file navigation mappings
+	file = { suffix = '' },     -- Disable file navigation mappings
 })
+require('import').setup()
 
 -- Treesitter setup
 require('nvim-treesitter.configs').setup({
 	ensure_installed = { "lua", "javascript", "typescript", "python", "go", "rust", "html", "css", "json", "markdown" },
 	highlight = { enable = true },
-	indent = { enable = true },
+	indent = { enable = false },
 	textobjects = {
 		move = {
 			enable = true,
@@ -159,6 +163,7 @@ require('blink.cmp').setup({
 		['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
 		['<C-e>'] = { 'hide' },
 		['<C-y>'] = { 'select_and_accept' },
+		['<CR>'] = { 'select_and_accept', 'fallback' },
 
 		['<C-p>'] = { 'select_prev', 'fallback' },
 		['<C-n>'] = { 'select_next', 'fallback' },
@@ -491,6 +496,10 @@ vim.lsp.config('lua_ls', {
 	},
 })
 vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format, { desc = 'LSP Format buffer' })
+vim.keymap.set('n', 'gd', function() snacks.picker.lsp_definitions() end, { desc = 'Go to definition' })
+vim.keymap.set('n', 'gr', function() snacks.picker.lsp_references() end, { desc = 'Go to references' })
+vim.keymap.set('n', 'K', vim.lsp.buf.hover, { desc = 'Show hover documentation' })
+vim.keymap.set('n', '<leader>k', vim.lsp.buf.signature_help, { desc = 'Show signature help' })
 -- inbuilt nvim autocomplete
 --[[ vim.api.nvim_create_autocmd('LspAttach', {
 	callback = function(ev)
