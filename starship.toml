@@ -88,7 +88,7 @@ $character"""
 # Time module configuration
 [time]
 disabled = false
-format = '🕙 [$time]($style) '
+format = '[$time]($style) '
 time_format = "%R"  # 24-hour format (14:30) - change to "%I:%M %p" for 12-hour
 style = "bold yellow"
 
