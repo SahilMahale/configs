@@ -1,6 +1,8 @@
 vim.o.number = true
 vim.o.relativenumber = true
-vim.o.tabstop = 2
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
+vim.o.expandtab = true
 vim.o.signcolumn = "yes"
 vim.o.wrap = false
 vim.g.mapleader = ' '
@@ -500,7 +502,7 @@ vim.keymap.set('n', 'gd', function() snacks.picker.lsp_definitions() end, { desc
 vim.keymap.set('n', 'gr', function() snacks.picker.lsp_references() end, { desc = 'Go to references' })
 vim.keymap.set('n', 'K', vim.lsp.buf.hover, { desc = 'Show hover documentation' })
 vim.keymap.set('n', '<leader>k', vim.lsp.buf.signature_help, { desc = 'Show signature help' })
-vim.keymap.set({'n','v','x'},'<leader>rn',vim.lsp.buf.rename,{ desc = 'LSP rename a function or variable'})
+vim.keymap.set({ 'n', 'v', 'x' }, '<leader>rn', vim.lsp.buf.rename, { desc = 'LSP rename a function or variable' })
 -- inbuilt nvim autocomplete
 --[[ vim.api.nvim_create_autocmd('LspAttach', {
 	callback = function(ev)
