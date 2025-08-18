@@ -306,6 +306,16 @@ snacks.setup({
 	},
 	statuscolumn = { enabled = true },
 	words = { enabled = false },
+	terminal = {
+		win = {
+			position = "bottom",
+			height = 0.3,
+			border = "rounded",
+			title = " Terminal ",
+			title_pos = "center",
+		},
+		autoclose = true,
+	},
 })
 
 require('which-key').setup({
@@ -398,6 +408,17 @@ vim.keymap.set('n', '<leader>bc', '<Cmd>BufferClose<CR>', { desc = 'Close buffer
 vim.keymap.set('n', '<leader>bp', '<Cmd>BufferPin<CR>', { desc = 'Pin buffer' })
 vim.keymap.set('n', '<A-p>m', '<Cmd>MarkdownPreviewToggle<CR>', { desc = 'Toggle MarkDown preview' })
 
+-- Terminal keymaps
+local terminal = snacks.terminal
+vim.keymap.set("n", "<C-/>", terminal.toggle, { desc = "Toggle Terminal" })
+vim.keymap.set("n", "<C-S-/>", function()
+	terminal.open()
+end, { desc = "New Terminal" })
+
+-- Terminal mode keymaps
+vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+vim.keymap.set("t", "<C-/>", terminal.toggle, { desc = "Toggle Terminal" })
+
 
 --LSP config
 -- Add nvm's current node/npm to PATH for Mason
@@ -438,11 +459,24 @@ require("mason").setup({
 	-- Add nvm node path
 	install_root_dir = vim.fn.stdpath("data") .. "/mason",
 })
+local on_attach = function(client, bufnr)
+	-- Format on save
+	if client.supports_method("textDocument/formatting") then
+		vim.api.nvim_create_autocmd("BufWritePre", {
+			buffer = bufnr,
+			callback = function()
+				vim.lsp.buf.format({ bufnr = bufnr })
+			end,
+		})
+	end
+end
+
 require("mason-lspconfig").setup({
 	handlers = {
 		function(server_name)
 			require('lspconfig')[server_name].setup({
-				capabilities = require('blink.cmp').get_lsp_capabilities()
+				capabilities = require('blink.cmp').get_lsp_capabilities(),
+				on_attach = on_attach
 			})
 		end,
 	}
