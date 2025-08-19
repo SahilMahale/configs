@@ -306,16 +306,6 @@ snacks.setup({
 	},
 	statuscolumn = { enabled = true },
 	words = { enabled = false },
-	terminal = {
-		win = {
-			position = "bottom",
-			height = 0.3,
-			border = "rounded",
-			title = " Terminal ",
-			title_pos = "center",
-		},
-		autoclose = true,
-	},
 })
 
 require('which-key').setup({
@@ -408,16 +398,47 @@ vim.keymap.set('n', '<leader>bc', '<Cmd>BufferClose<CR>', { desc = 'Close buffer
 vim.keymap.set('n', '<leader>bp', '<Cmd>BufferPin<CR>', { desc = 'Pin buffer' })
 vim.keymap.set('n', '<A-p>m', '<Cmd>MarkdownPreviewToggle<CR>', { desc = 'Toggle MarkDown preview' })
 
--- Terminal keymaps
-local terminal = snacks.terminal
-vim.keymap.set("n", "<C-/>", terminal.toggle, { desc = "Toggle Terminal" })
+-- Terminal keymaps with custom config
+vim.keymap.set("n", "<C-/>", function()
+	snacks.terminal.toggle(nil, {
+		win = {
+			position = "bottom",
+			height = 0.3,
+			border = "rounded",
+			title = " Terminal ",
+			title_pos = "center",
+		},
+		autoclose = true,
+	})
+end, { desc = "Toggle Terminal" })
+
 vim.keymap.set("n", "<C-S-/>", function()
-	terminal.open()
+	snacks.terminal.open(nil, {
+		win = {
+			position = "bottom",
+			height = 0.3,
+			border = "rounded",
+			title = " Terminal ",
+			title_pos = "center",
+		},
+		autoclose = true,
+	})
 end, { desc = "New Terminal" })
 
 -- Terminal mode keymaps
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
-vim.keymap.set("t", "<C-/>", terminal.toggle, { desc = "Toggle Terminal" })
+vim.keymap.set("t", "<C-/>", function()
+	snacks.terminal.toggle(nil, {
+		win = {
+			position = "bottom",
+			height = 0.3,
+			border = "rounded",
+			title = " Terminal ",
+			title_pos = "center",
+		},
+		autoclose = true,
+	})
+end, { desc = "Toggle Terminal" })
 
 
 --LSP config
