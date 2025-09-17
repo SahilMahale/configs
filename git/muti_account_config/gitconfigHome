@@ -1,11 +1,43 @@
-# Work account settings
-[includeIf "gitdir:~/workMHE/"]
-    path = ~/workMHE/.gitconfig
+[user]
+    # Default configuration (can be your personal)
+    name = Sahil Mahale
+    email = mahalesahil@gmail.com
 
-# Personal account settings
+[includeIf "gitdir:~/workMHE"]
+    path = ~/.gitconfig-work 
+
 [includeIf "gitdir:~/personal/"]
-    path = ~/personal/.gitconfig
+    path = ~/.gitconfig-personal
+
+[includeIf "gitdir:~/"]
+    path = ~/.gitconfig-personal
+
 [core]
 	editor = nvim
+  pager = delta
 [alias]
   undo = reset --soft HEAD^
+[pull]
+	rebase = true
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true  # use n and N to move between diff sections
+    dark = true      # or light = true, or omit for auto-detection
+    line-numbers = true
+    side-by-side = true
+
+[merge]
+    conflictstyle = zdiff3
+
+[url "ssh://git@github.com/"]
+	insteadOf = https://github.com/
+[includeIf "gitdir:/Users/sahil.mahale/workMHE/"]
+	path = /Users/sahil.mahale/.gitconfig-work
