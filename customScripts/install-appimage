@@ -10,12 +10,14 @@ NC='\033[0m' # No Color
 
 usage() {
     echo "Usage: $(basename "$0") [OPTIONS] <appimage-path> <app-name>"
+    echo "       $(basename "$0") --list"
     echo ""
     echo "Arguments:"
     echo "  appimage-path   Path to the AppImage file"
     echo "  app-name        Name for the application (used for binary, desktop file, icon)"
     echo ""
     echo "Options:"
+    echo "  -l, --list      List all installed AppImages"
     echo "  -u, --update    Update existing installation (only replaces binary)"
     echo "  -f, --force     Force full reinstall (replaces binary, icon, and desktop file)"
     echo "  -h, --help      Show this help message"
@@ -23,7 +25,50 @@ usage() {
     echo "Examples:"
     echo "  $(basename "$0") ~/Downloads/Yaak-2.0.0.AppImage yaak"
     echo "  $(basename "$0") --update ~/Downloads/Yaak-2.1.0.AppImage yaak"
+    echo "  $(basename "$0") --list"
     exit 1
+}
+
+# Check if a file is an AppImage by looking for the magic signature
+# AppImage Type 2 has "AI\x02" at offset 8
+is_appimage() {
+    local file="$1"
+    [[ -f "$file" && -x "$file" ]] || return 1
+    local magic=$(hexdump -s 8 -n 3 -v -e '/1 "%02x"' "$file" 2>/dev/null)
+    [[ "$magic" == "414902" ]] && return 0  # "AI\x02" in hex
+    return 1
+}
+
+list_installed() {
+    BIN_DIR="$HOME/.local/bin"
+
+    if [[ ! -d "$BIN_DIR" ]]; then
+        echo "No AppImages installed."
+        exit 0
+    fi
+
+    echo -e "${GREEN}Installed AppImages:${NC}"
+    echo ""
+    printf "%-20s %-50s %s\n" "NAME" "PATH" "SIZE"
+    printf "%-20s %-50s %s\n" "----" "----" "----"
+
+    found=0
+    for binary in "$BIN_DIR"/*; do
+        [[ -f "$binary" ]] || continue
+
+        if is_appimage "$binary"; then
+            name=$(basename "$binary")
+            size=$(du -h "$binary" | cut -f1)
+            printf "%-20s %-50s %s\n" "$name" "$binary" "$size"
+            found=1
+        fi
+    done
+
+    if [[ $found -eq 0 ]]; then
+        echo "No AppImages found in $BIN_DIR"
+    fi
+
+    exit 0
 }
 
 UPDATE_ONLY=false
@@ -32,6 +77,9 @@ FORCE=false
 # Parse options
 while [[ $# -gt 0 ]]; do
     case $1 in
+        -l|--list)
+            list_installed
+            ;;
         -u|--update)
             UPDATE_ONLY=true
             shift
