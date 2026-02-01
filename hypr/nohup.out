@@ -1,0 +1,34 @@
+[LOG] Welcome to hyprpaper!
+built from commit  ()
+[LOG] Cleaned old hyprpaper preloads (1), removing 8.3MB
+[LOG] Preloaded target /home/sahil/Pictures/Wallpapers/Kazuha.jpg in 31.36ms -> Pixel size: [1440, 1800]
+[LOG] Buffer created for target /home/sahil/Pictures/Wallpapers/Kazuha.jpg, Shared Memory usage: 8.3MB
+[LOG] Total SM usage for all buffers: 8.3MB
+[LOG] hyprpaper socket started at /run/user/1000/hypr/12f9a0d0b93f691d4d9923716557154d74777b0a_1756717542_105368434/.hyprpaper.sock (fd: 4)
+[LOG] configure for eDP-1
+[LOG] handlePreferredScale: 1.00 for 55819f6c93b0
+[LOG] configure for eDP-1
+[LOG] Image data for eDP-1: /home/sahil/Pictures/Wallpapers/Kazuha.jpg at [880.00, 0.00], scale: 0.60 (original image size: [1440, 1800])
+[LOG] Submitting viewport dest size 1920x1080 for 9f6c93b0
+[LOG] handlePreferredScale: 1.00 for 55819f6c93b0
+[LOG] No pointer capability from the compositor
+[LOG] No pointer capability from the compositor
+[LOG] No pointer capability from the compositor
+[LOG] No pointer capability from the compositor
+[LOG] No pointer capability from the compositor
+[LOG] No pointer capability from the compositor
+[LOG] No pointer capability from the compositor
+[LOG] No pointer capability from the compositor
+[LOG] No pointer capability from the compositor
+[LOG] No pointer capability from the compositor
+[LOG] No pointer capability from the compositor
+[LOG] No pointer capability from the compositor
+[LOG] No pointer capability from the compositor
+[LOG] No pointer capability from the compositor
+[LOG] No pointer capability from the compositor
+[LOG] No pointer capability from the compositor
+[LOG] No pointer capability from the compositor
+[LOG] No pointer capability from the compositor
+[LOG] No pointer capability from the compositor
+[LOG] No pointer capability from the compositor
+[LOG] No pointer capability from the compositor

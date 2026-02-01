@@ -1,0 +1,200 @@
+#!/bin/bash
+
+set -e
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+NC='\033[0m' # No Color
+
+usage() {
+    echo "Usage: $(basename "$0") [OPTIONS] <appimage-path> <app-name>"
+    echo ""
+    echo "Arguments:"
+    echo "  appimage-path   Path to the AppImage file"
+    echo "  app-name        Name for the application (used for binary, desktop file, icon)"
+    echo ""
+    echo "Options:"
+    echo "  -u, --update    Update existing installation (only replaces binary)"
+    echo "  -f, --force     Force full reinstall (replaces binary, icon, and desktop file)"
+    echo "  -h, --help      Show this help message"
+    echo ""
+    echo "Examples:"
+    echo "  $(basename "$0") ~/Downloads/Yaak-2.0.0.AppImage yaak"
+    echo "  $(basename "$0") --update ~/Downloads/Yaak-2.1.0.AppImage yaak"
+    exit 1
+}
+
+UPDATE_ONLY=false
+FORCE=false
+
+# Parse options
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -u|--update)
+            UPDATE_ONLY=true
+            shift
+            ;;
+        -f|--force)
+            FORCE=true
+            shift
+            ;;
+        -h|--help)
+            usage
+            ;;
+        -*)
+            echo -e "${RED}Unknown option: $1${NC}"
+            usage
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+
+if [[ $# -ne 2 ]]; then
+    usage
+fi
+
+APPIMAGE_PATH="$1"
+APP_NAME="$2"
+APP_NAME_LOWER=$(echo "$APP_NAME" | tr '[:upper:]' '[:lower:]')
+
+# Validate AppImage exists
+if [[ ! -f "$APPIMAGE_PATH" ]]; then
+    echo -e "${RED}Error: AppImage not found at $APPIMAGE_PATH${NC}"
+    exit 1
+fi
+
+# Set up directories
+BIN_DIR="$HOME/.local/bin"
+APPS_DIR="$HOME/.local/share/applications"
+ICONS_DIR="$HOME/.local/share/icons"
+
+mkdir -p "$BIN_DIR" "$APPS_DIR" "$ICONS_DIR"
+
+DEST_PATH="$BIN_DIR/$APP_NAME_LOWER"
+DESKTOP_FILE="$APPS_DIR/$APP_NAME_LOWER.desktop"
+ICON_DEST="$ICONS_DIR/$APP_NAME_LOWER.png"
+
+# Check if already installed
+ALREADY_INSTALLED=false
+if [[ -f "$DEST_PATH" ]]; then
+    ALREADY_INSTALLED=true
+fi
+
+# Handle update mode
+if [[ "$UPDATE_ONLY" == true ]]; then
+    if [[ "$ALREADY_INSTALLED" == false ]]; then
+        echo -e "${RED}Error: $APP_NAME is not installed. Run without --update for fresh install.${NC}"
+        exit 1
+    fi
+    echo -e "${YELLOW}Updating $APP_NAME...${NC}"
+    cp "$APPIMAGE_PATH" "$DEST_PATH"
+    chmod +x "$DEST_PATH"
+    echo -e "${GREEN}Successfully updated $APP_NAME!${NC}"
+    echo "Binary: $DEST_PATH"
+    exit 0
+fi
+
+# Warn if already installed (unless force)
+if [[ "$ALREADY_INSTALLED" == true && "$FORCE" == false ]]; then
+    echo -e "${YELLOW}$APP_NAME is already installed.${NC}"
+    echo "Use --update to update the binary only"
+    echo "Use --force to do a full reinstall"
+    exit 1
+fi
+
+# Copy and make executable
+echo "Copying AppImage to $DEST_PATH..."
+cp "$APPIMAGE_PATH" "$DEST_PATH"
+chmod +x "$DEST_PATH"
+
+# Extract AppImage to get icon and desktop file
+echo "Extracting AppImage..."
+TEMP_DIR=$(mktemp -d)
+cd "$TEMP_DIR"
+
+"$DEST_PATH" --appimage-extract >/dev/null 2>&1 || true
+
+EMBEDDED_DESKTOP=""
+ICON_PATH=""
+
+if [[ -d "squashfs-root" ]]; then
+    # Find embedded desktop file
+    EMBEDDED_DESKTOP=$(find squashfs-root -maxdepth 2 -name "*.desktop" 2>/dev/null | head -1)
+
+    # Find icon (prefer larger sizes)
+    for size in 512 256 128 64 48 32; do
+        FOUND=$(find squashfs-root -name "*.png" -path "*${size}*" 2>/dev/null | head -1)
+        if [[ -n "$FOUND" ]]; then
+            ICON_PATH="$FOUND"
+            break
+        fi
+    done
+
+    # Fallback: PNG in root
+    if [[ -z "$ICON_PATH" ]]; then
+        ICON_PATH=$(find squashfs-root -maxdepth 1 -name "*.png" 2>/dev/null | head -1)
+    fi
+
+    # Fallback: any PNG
+    if [[ -z "$ICON_PATH" ]]; then
+        ICON_PATH=$(find squashfs-root -name "*.png" 2>/dev/null | head -1)
+    fi
+
+    # Fallback: SVG
+    if [[ -z "$ICON_PATH" ]]; then
+        ICON_PATH=$(find squashfs-root -name "*.svg" 2>/dev/null | head -1)
+        if [[ -n "$ICON_PATH" ]]; then
+            ICON_DEST="$ICONS_DIR/$APP_NAME_LOWER.svg"
+        fi
+    fi
+fi
+
+# Copy icon
+if [[ -n "$ICON_PATH" ]]; then
+    cp "$ICON_PATH" "$ICON_DEST"
+    echo "Icon: $ICON_DEST"
+else
+    echo -e "${YELLOW}Warning: Could not find icon in AppImage${NC}"
+    ICON_DEST="$APP_NAME_LOWER"
+fi
+
+# Create desktop file
+if [[ -n "$EMBEDDED_DESKTOP" && -f "$EMBEDDED_DESKTOP" ]]; then
+    echo "Using embedded desktop file..."
+    cp "$EMBEDDED_DESKTOP" "$DESKTOP_FILE"
+
+    # Patch Exec and Icon paths
+    sed -i "s|^Exec=.*|Exec=$DEST_PATH %U|" "$DESKTOP_FILE"
+    sed -i "s|^Icon=.*|Icon=$ICON_DEST|" "$DESKTOP_FILE"
+
+    # Ensure TryExec points to correct location or remove it
+    sed -i "/^TryExec=/d" "$DESKTOP_FILE"
+else
+    echo "No embedded desktop file found, creating one..."
+    cat > "$DESKTOP_FILE" << EOF
+[Desktop Entry]
+Name=$APP_NAME
+Comment=$APP_NAME Application
+Exec=$DEST_PATH %U
+Icon=$ICON_DEST
+Type=Application
+Categories=Utility;
+Terminal=false
+StartupWMClass=$APP_NAME_LOWER
+EOF
+fi
+
+# Clean up temp directory
+rm -rf "$TEMP_DIR"
+
+# Update desktop database
+update-desktop-database "$APPS_DIR" 2>/dev/null || true
+
+echo -e "${GREEN}Successfully installed $APP_NAME!${NC}"
+echo ""
+echo "Binary:  $DEST_PATH"
+echo "Desktop: $DESKTOP_FILE"
