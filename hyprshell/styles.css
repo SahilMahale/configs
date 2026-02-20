@@ -1,0 +1,38 @@
+/* Catppuccin Mocha theme for hyprshell */
+/* Matching ~/.config/wofi/style.css */
+
+:root {
+    --border-color: rgba(69, 71, 90, 0.8);          /* surface1 */
+    --border-color-active: rgba(180, 190, 254, 0.9); /* lavender */
+    --bg-color: rgba(30, 30, 46, 0.9);               /* base */
+    --bg-color-hover: rgba(49, 50, 68, 1);           /* surface0 */
+    --text-color: rgba(205, 214, 244, 1);            /* text */
+    --bg-window-color: rgba(24, 24, 37, 0.95);       /* mantle */
+    --border-radius: 11px;
+    --border-size: 2px;
+    --border-style: solid;
+    --window-padding: 3px;
+}
+
+* {
+    font-family: 'tx-02', monospace;
+}
+
+.launcher-input {
+    color: rgba(205, 214, 244, 1);                   /* text */
+    caret-color: rgba(243, 139, 168, 1);             /* red */
+}
+
+.launcher-exec {
+    color: rgba(166, 173, 200, 0.8);                 /* subtext0 */
+}
+
+.launcher-key,
+.launcher-plugin-key {
+    color: rgba(203, 166, 247, 1);                   /* mauve */
+}
+
+/* Push overview content down to approximate vertical centering on 1080p */
+.window {
+    padding-top: 100px;
+}
