@@ -386,6 +386,8 @@ require('blink.cmp').setup({
     keymap = {
         preset = 'default',
         ['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
+        ['<C-@>'] = { 'show', 'show_documentation', 'hide_documentation' },
+        ['<C-a>'] = { 'show', 'show_documentation', 'hide_documentation' },
         ['<C-e>'] = { 'hide' },
         ['<C-y>'] = { 'select_and_accept' },
         ['<CR>'] = { 'select_and_accept', 'fallback' },
@@ -616,8 +618,32 @@ vim.keymap.set('n', '<C-l>', '<C-w>l', { desc = 'Focus right window' })
 -- Barbar keymaps
 vim.keymap.set('n', '<S-h>', '<Cmd>BufferPrevious<CR>', { desc = 'Previous buffer' })
 vim.keymap.set('n', '<S-l>', '<Cmd>BufferNext<CR>', { desc = 'Next buffer' })
+vim.keymap.set('n', '<leader>bb', '<Cmd>BufferPick<CR>', { desc = 'Pick buffer' })
+vim.keymap.set('n', '<leader>bd', '<Cmd>BufferPickDelete<CR>', { desc = 'Pick buffer to close' })
 vim.keymap.set('n', '<leader>bc', '<Cmd>BufferClose<CR>', { desc = 'Close buffer' })
+vim.keymap.set('n', '<leader>bh', '<Cmd>BufferCloseBuffersLeft<CR>', { desc = 'Close buffer on Left' })
+vim.keymap.set('n', '<leader>bl', '<Cmd>BufferCloseBuffersRight<CR>', { desc = 'Close buffer on Right' })
+vim.keymap.set('n', '<leader>bac', '<Cmd>BufferCloseAllButCurrent<CR>', { desc = 'Close buffer all but current' })
+vim.keymap.set('n', '<leader>baC', '<Cmd>BufferCloseAllButCurrentOrPinned<CR>', { desc = 'Close buffer all but current or pinned' })
+vim.keymap.set('n', '<leader>bap', '<Cmd>BufferCloseAllButPinned<CR>', { desc = 'Close buffer all but pinned' })
+vim.keymap.set('n', '<leader>bav', '<Cmd>BufferCloseAllButVisible<CR>', { desc = 'Close buffer all but visible' })
 vim.keymap.set('n', '<leader>bp', '<Cmd>BufferPin<CR>', { desc = 'Pin buffer' })
+vim.keymap.set('n', '<leader>b1', '<Cmd>BufferGoto 1<CR>', { desc = 'Go to buffer 1' })
+vim.keymap.set('n', '<leader>b2', '<Cmd>BufferGoto 2<CR>', { desc = 'Go to buffer 2' })
+vim.keymap.set('n', '<leader>b3', '<Cmd>BufferGoto 3<CR>', { desc = 'Go to buffer 3' })
+vim.keymap.set('n', '<leader>b4', '<Cmd>BufferGoto 4<CR>', { desc = 'Go to buffer 4' })
+vim.keymap.set('n', '<leader>b5', '<Cmd>BufferGoto 5<CR>', { desc = 'Go to buffer 5' })
+vim.keymap.set('n', '<leader>b6', '<Cmd>BufferGoto 6<CR>', { desc = 'Go to buffer 6' })
+vim.keymap.set('n', '<leader>b7', '<Cmd>BufferGoto 7<CR>', { desc = 'Go to buffer 7' })
+vim.keymap.set('n', '<leader>b8', '<Cmd>BufferGoto 8<CR>', { desc = 'Go to buffer 8' })
+vim.keymap.set('n', '<leader>b9', '<Cmd>BufferGoto 9<CR>', { desc = 'Go to buffer 9' })
+vim.keymap.set('n', '<leader>b0', '<Cmd>BufferLast<CR>', { desc = 'Go to last buffer' })
+vim.keymap.set('n', '<leader>bH', '<Cmd>BufferMovePrevious<CR>', { desc = 'Move buffer left' })
+vim.keymap.set('n', '<leader>bL', '<Cmd>BufferMoveNext<CR>', { desc = 'Move buffer right' })
+vim.keymap.set('n', '<leader>bo1', '<Cmd>BufferOrderByBufferNumber<CR>', { desc = 'Order buffers by number' })
+vim.keymap.set('n', '<leader>bo2', '<Cmd>BufferOrderByDirectory<CR>', { desc = 'Order buffers by directory' })
+vim.keymap.set('n', '<leader>bo3', '<Cmd>BufferOrderByLanguage<CR>', { desc = 'Order buffers by language' })
+vim.keymap.set('n', '<leader>bo4', '<Cmd>BufferOrderByWindowNumber<CR>', { desc = 'Order buffers by window number' })
 vim.keymap.set('n', '<A-p>m', '<Cmd>MarkdownPreviewToggle<CR>', { desc = 'Toggle MarkDown preview' })
 
 -- Terminal keymaps with custom config
