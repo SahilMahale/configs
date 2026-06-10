@@ -1,0 +1,125 @@
+themes {
+    oxocarbon {
+        // base00=#161616  base01=#262626  base02=#393939  base03=#525252
+        // base04=#d0d0d0  base05=#f2f2f2  base06=#ffffff
+        // base07=#08bdba  base08=#3ddbd9  base09=#78a9ff
+        // base10=#ee5396  base11=#33b1ff  base12=#ff7eb6
+        // base13=#42be65  base14=#be95ff  base15=#82cfff
+        text_unselected {
+            base 208 208 208
+            background 22 22 22
+            emphasis_0 238 83 150
+            emphasis_1 120 169 255
+            emphasis_2 66 190 101
+            emphasis_3 190 149 255
+        }
+        text_selected {
+            base 208 208 208
+            background 38 38 38
+            emphasis_0 238 83 150
+            emphasis_1 120 169 255
+            emphasis_2 66 190 101
+            emphasis_3 190 149 255
+        }
+        ribbon_selected {
+            base 22 22 22
+            background 120 169 255
+            emphasis_0 238 83 150
+            emphasis_1 61 219 217
+            emphasis_2 190 149 255
+            emphasis_3 51 177 255
+        }
+        ribbon_unselected {
+            base 22 22 22
+            background 82 82 82
+            emphasis_0 238 83 150
+            emphasis_1 208 208 208
+            emphasis_2 120 169 255
+            emphasis_3 190 149 255
+        }
+        table_title {
+            base 66 190 101
+            background 0
+            emphasis_0 8 189 186
+            emphasis_1 120 169 255
+            emphasis_2 51 177 255
+            emphasis_3 190 149 255
+        }
+        table_cell_selected {
+            base 208 208 208
+            background 38 38 38
+            emphasis_0 255 126 182
+            emphasis_1 120 169 255
+            emphasis_2 66 190 101
+            emphasis_3 190 149 255
+        }
+        table_cell_unselected {
+            base 208 208 208
+            background 22 22 22
+            emphasis_0 255 126 182
+            emphasis_1 120 169 255
+            emphasis_2 66 190 101
+            emphasis_3 190 149 255
+        }
+        list_selected {
+            base 208 208 208
+            background 38 38 38
+            emphasis_0 255 126 182
+            emphasis_1 120 169 255
+            emphasis_2 66 190 101
+            emphasis_3 190 149 255
+        }
+        list_unselected {
+            base 208 208 208
+            background 22 22 22
+            emphasis_0 255 126 182
+            emphasis_1 120 169 255
+            emphasis_2 66 190 101
+            emphasis_3 190 149 255
+        }
+        frame_selected {
+            base 120 169 255
+            background 0
+            emphasis_0 8 189 186
+            emphasis_1 51 177 255
+            emphasis_2 190 149 255
+            emphasis_3 0
+        }
+        frame_highlight {
+            base 255 126 182
+            background 0
+            emphasis_0 190 149 255
+            emphasis_1 255 126 182
+            emphasis_2 255 126 182
+            emphasis_3 255 126 182
+        }
+        exit_code_success {
+            base 66 190 101
+            background 0
+            emphasis_0 8 189 186
+            emphasis_1 22 22 22
+            emphasis_2 190 149 255
+            emphasis_3 120 169 255
+        }
+        exit_code_error {
+            base 238 83 150
+            background 0
+            emphasis_0 255 126 182
+            emphasis_1 0
+            emphasis_2 0
+            emphasis_3 0
+        }
+        multiplayer_user_colors {
+            player_1 190 149 255
+            player_2 120 169 255
+            player_3 8 189 186
+            player_4 255 126 182
+            player_5 51 177 255
+            player_6 66 190 101
+            player_7 238 83 150
+            player_8 0
+            player_9 0
+            player_10 0
+        }
+    }
+}
