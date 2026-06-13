@@ -49,13 +49,14 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
     -- Colorschemes (load immediately so there's no flash)
-    { "vague2k/vague.nvim",     lazy = false, priority = 1000 },
+    { "vague2k/vague.nvim",         lazy = false, priority = 1000 },
+    { "EdenEast/nightfox.nvim",     lazy = false, priority = 1000 },
     {
-        "EdenEast/nightfox.nvim",
+        "nyoom-engineering/oxocarbon.nvim",
         lazy = false,
         priority = 1000,
         config = function()
-            vim.cmd("colorscheme carbonfox")
+            vim.cmd("colorscheme oxocarbon")
         end,
     },
 
@@ -169,14 +170,22 @@ require("lazy").setup({
         config = function()
             -- Enable built-in treesitter highlighting for all filetypes
             vim.api.nvim_create_autocmd('FileType', {
-                callback = function() pcall(vim.treesitter.start) end,
+                callback = function(ev) pcall(vim.treesitter.start, ev.buf) end,
             })
+            -- Re-apply to buffers already open before treesitter loaded (e.g. session restore)
+            vim.defer_fn(function()
+                for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+                    if vim.api.nvim_buf_is_loaded(buf) then
+                        pcall(vim.treesitter.start, buf)
+                    end
+                end
+            end, 100)
             -- Auto-install parsers on first load
             vim.api.nvim_create_autocmd('VimEnter', {
                 once = true,
                 callback = function()
                     require('nvim-treesitter').install({
-                        "lua", "javascript", "typescript", "python", "go",
+                        "lua", "javascript", "typescript", "tsx", "jsx", "python", "go",
                         "rust", "html", "css", "json", "markdown", "terraform", "hcl"
                     })
                 end,
@@ -300,10 +309,10 @@ require("lazy").setup({
         config = function()
             require("mason-tool-installer").setup({
                 ensure_installed = {
-                    "ts_ls", "html", "cssls", "tailwindcss", "lua_ls",
+                    "vtsls", "html", "cssls", "tailwindcss", "lua_ls",
                     "emmet_ls", "gopls", "pyright", "markdown_oxide", "stylua",
                     "shellcheck", "shfmt", "flake8", "eslint", "dockerls",
-                    "docker_compose_language_service", "jsonls", "jqls", "vtsls",
+                    "docker_compose_language_service", "jsonls", "jqls",
                 },
                 auto_update = false,
                 run_on_start = true,
@@ -586,7 +595,7 @@ require("lazy").setup({
 
 }, {
     -- lazy.nvim options
-    install = { colorscheme = { "carbonfox", "habamax" } },
+    install = { colorscheme = { "oxocarbon", "habamax" } },
     checker = { enabled = false }, -- disable automatic update checks
     performance = {
         rtp = {
@@ -693,6 +702,37 @@ vim.keymap.set("t", "<C-/>", function()
     })
 end, { desc = "Toggle Terminal" })
 
+-- Reapply treesitter after session restore (focused buffer races its own FileType event)
+vim.api.nvim_create_autocmd('VimEnter', {
+    once = true,
+    callback = function()
+        vim.schedule(function()
+            for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+                if vim.api.nvim_buf_is_loaded(buf) then
+                    if vim.bo[buf].filetype == '' then
+                        local ft = vim.filetype.match({ buf = buf })
+                        if ft then vim.bo[buf].filetype = ft end
+                    end
+                    pcall(vim.treesitter.start, buf)
+                end
+            end
+        end)
+    end,
+})
+
+vim.keymap.set('n', '<leader>th', function()
+    vim.cmd('filetype detect')
+    local buf = vim.api.nvim_get_current_buf()
+    local ft = vim.bo[buf].filetype
+    local lang = vim.treesitter.language.get_lang(ft)
+    if lang then
+        vim.treesitter.stop(buf)
+        pcall(vim.treesitter.start, buf, lang)
+    else
+        vim.notify('No treesitter parser for filetype: ' .. ft, vim.log.levels.WARN)
+    end
+end, { desc = 'Reload treesitter highlighting' })
+
 -- LSP keymaps
 vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format,                            { desc = 'LSP Format buffer' })
 vim.keymap.set('n', 'gd',         function() snacks.picker.lsp_definitions() end, { desc = 'Go to definition' })
@@ -701,12 +741,3 @@ vim.keymap.set('n', 'K',          vim.lsp.buf.hover,                            
 vim.keymap.set('n', '<leader>k',  vim.lsp.buf.signature_help,                   { desc = 'Show signature help' })
 vim.keymap.set({ 'n', 'v', 'x' }, '<leader>rn', vim.lsp.buf.rename,             { desc = 'LSP rename' })
 
-vim.api.nvim_create_autocmd('LspAttach', {
-    callback = function(ev)
-        local client = vim.lsp.get_client_by_id(ev.data.client_id)
-        if client:supports_method('textDocument/completion') then
-            vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
-        end
-    end,
-})
-vim.cmd("set completeopt+=noselect")
