@@ -1,4 +1,5 @@
 -- Options & keymaps (must come before lazy bootstrap)
+vim.o.hidden = true
 vim.o.number = true
 vim.o.relativenumber = true
 vim.o.tabstop = 4
@@ -163,6 +164,14 @@ require("lazy").setup({
         event = { "BufReadPost", "BufNewFile" },
         dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
         config = function()
+            -- Auto-install parsers
+            require('nvim-treesitter.configs').setup({
+                ensure_installed = {
+                    "lua", "javascript", "typescript", "tsx", "python", "go",
+                    "rust", "html", "css", "json", "markdown", "terraform", "hcl"
+                },
+                auto_install = true,
+            })
             -- Enable built-in treesitter highlighting for all filetypes
             vim.api.nvim_create_autocmd('FileType', {
                 callback = function(ev) pcall(vim.treesitter.start, ev.buf) end,
@@ -175,18 +184,8 @@ require("lazy").setup({
                     end
                 end
             end, 100)
-            -- Auto-install parsers on first load
-            vim.api.nvim_create_autocmd('VimEnter', {
-                once = true,
-                callback = function()
-                    require('nvim-treesitter').install({
-                        "lua", "javascript", "typescript", "tsx", "jsx", "python", "go",
-                        "rust", "html", "css", "json", "markdown", "terraform", "hcl"
-                    })
-                end,
-            })
             -- Textobject keymaps
-            local ts_move = require('nvim-treesitter-textobjects.move')
+            local ts_move = require('nvim-treesitter.textobjects.move')
             vim.keymap.set({ 'n', 'x', 'o' }, ']f', function() ts_move.goto_next_start('@function.outer') end, { desc = 'Next function start' })
             vim.keymap.set({ 'n', 'x', 'o' }, ']c', function() ts_move.goto_next_start('@class.outer') end, { desc = 'Next class start' })
             vim.keymap.set({ 'n', 'x', 'o' }, ']F', function() ts_move.goto_next_end('@function.outer') end, { desc = 'Next function end' })
@@ -198,12 +197,19 @@ require("lazy").setup({
         end,
     },
     { "nvim-treesitter/nvim-treesitter-textobjects", lazy = true },
+    {
+        "windwp/nvim-ts-autotag",
+        event = { "BufReadPost", "BufNewFile" },
+        config = function()
+            require('nvim-ts-autotag').setup()
+        end,
+    },
 
     -- Completion (only needed in insert mode)
     {
         "saghen/blink.cmp",
         event = "InsertEnter",
-        dependencies = { "rafamadriz/friendly-snippets" },
+        dependencies = { "rafamadriz/friendly-snippets", "saghen/blink.lib" },
         config = function()
             require('blink.cmp').setup({
                 fuzzy = { implementation = 'lua' },
@@ -280,6 +286,7 @@ require("lazy").setup({
                     function(server_name)
                         require("lspconfig")[server_name].setup({ on_attach = on_attach })
                     end,
+                    ["ts_ls"] = function() end,
                     ["lua_ls"] = function()
                         require("lspconfig").lua_ls.setup({
                             on_attach = on_attach,
