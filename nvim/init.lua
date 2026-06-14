@@ -28,12 +28,7 @@ vim.keymap.set('n', '<leader>D', '"+D', { desc = 'Delete line to system clipboar
 vim.keymap.set('n', '<leader>Y', '"+Y', { desc = 'Copy line to system clipboard' })
 vim.keymap.set({ 'n', 'v' }, '<leader>p', '"+p', { desc = 'Paste from system clipboard' })
 vim.keymap.set({ 'n', 'v' }, '<leader>P', '"+P', { desc = 'Paste before from system clipboard' })
-vim.keymap.set('n', '<leader>tW', function()
-    local wrap = not vim.wo.wrap
-    vim.wo.wrap = wrap
-    vim.wo.linebreak = wrap
-    vim.notify("Text wrap: " .. (wrap and "ON" or "OFF"), vim.log.levels.INFO)
-end, { desc = 'Toggle text wrap' })
+vim.keymap.set('n', '<leader>tW', function() require('wrapping').toggle_wrap_mode() end, { desc = 'Toggle text wrap mode' })
 
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -467,6 +462,17 @@ require("lazy").setup({
         end,
     },
     {
+        "andrewferrier/wrapping.nvim",
+        event = { "BufReadPost", "BufNewFile" },
+        config = function()
+            require('wrapping').setup({
+                create_keymaps = false,
+                notify_on_switch = true,
+                auto_set_mode_heuristically = true,
+            })
+        end,
+    },
+    {
         "iamcco/markdown-preview.nvim",
         ft = "markdown",
         build = function() vim.fn["mkdp#util#install"]() end,
@@ -478,8 +484,7 @@ require("lazy").setup({
     {
         "stevearc/oil.nvim",
         dependencies = { "nvim-tree/nvim-web-devicons" },
-        -- Load when editing a directory, or on demand via keymaps
-        lazy = true,
+        lazy = false,
         config = function()
             require('oil').setup({
                 default_file_explorer = false,
@@ -629,6 +634,7 @@ local snacks = require('snacks')
 local gitS   = require('gitsigns')
 
 vim.keymap.set('n', '<leader>e',  function() snacks.explorer() end,               { desc = 'Toggle file explorer' })
+vim.keymap.set('n', '-',          function() require('oil').open() end,            { desc = 'Open Oil file explorer' })
 vim.keymap.set('n', '<leader> ',  function() snacks.picker.files() end,           { desc = 'Find files' })
 vim.keymap.set('n', '<leader>/',  function() snacks.picker.grep() end,            { desc = 'Live grep' })
 vim.keymap.set('n', '<leader>,',  function() snacks.picker.buffers() end,         { desc = 'Show open buffers' })
