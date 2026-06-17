@@ -144,6 +144,12 @@ PERL_LOCAL_LIB_ROOT="/home/sahil/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_R
 PERL_MB_OPT="--install_base \"/home/sahil/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/home/sahil/perl5"; export PERL_MM_OPT;
 
+nvm() {
+  unset -f nvm
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+  nvm "$@"  > /dev/null 2>&1
+}
 
 # Load Angular CLI autocompletion.
 source <(ng completion script)
