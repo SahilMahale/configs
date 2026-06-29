@@ -107,6 +107,9 @@ alias lz='lazygit'
 alias stDk='sudo systemctl start docker'
 export EDITOR=nvim
 export KITTY_CONFIG=~/.config/kitty/kitty.conf
+alias ls='eza --icons auto'
+alias cd='z'
+alias bob='nvm > /dev/null && bob'
 
 # pnpm
 export PNPM_HOME="/home/sahil/.local/share/pnpm"
@@ -144,6 +147,13 @@ PERL_LOCAL_LIB_ROOT="/home/sahil/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_R
 PERL_MB_OPT="--install_base \"/home/sahil/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/home/sahil/perl5"; export PERL_MM_OPT;
 
+
+# Load Angular CLI autocompletion.
+#source <(ng completion script)
+#fortune | cowsay
+export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
+export NVM_DIR="$HOME/.nvm"
+
 # Lazy load nvm — loads on first use of nvm, node, npm, npx, yarn, or pnpm
 _load_nvm() {
   unset -f nvm node npm npx yarn
@@ -154,7 +164,72 @@ nvm()  { _load_nvm; nvm  "$@"; }
 node() { _load_nvm; node "$@"; }
 npm()  { _load_nvm; npm  "$@"; }
 npx()  { _load_nvm; npx  "$@"; }
+yarn()  { _load_nvm; yarn  "$@"; }
+#export JAVA_HOME=/Library/Java/JavaVirtualMachines/amazon-corretto-17.jdk/Contents/Home
+#
+## Lazy load SDKMAN
+#export SDKMAN_DIR="$HOME/.sdkman"
+#sdk() {
+#  unset -f sdk
+#  [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+#  sdk "$@"
+#}
+## inegrate startship
+  eval "$(starship init zsh)"
 
-# Load Angular CLI autocompletion.
-source <(ng completion script)
-fortune | cowsay
+# Integrate Zoixde
+eval "$(zoxide init zsh)"
+
+# fzf integration
+source <(fzf --zsh)
+
+# fzf configuration
+export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+export FZF_CTRL_T_OPTS='--preview "bat --color=always {}" --preview-window=right:60%'
+export FZF_CTRL_R_OPTS='--preview "echo {}" --preview-window=down:3:hidden:wrap --bind "?:toggle-preview"'
+
+# Git + fzf functions
+# Interactive git checkout
+gcof() {
+  local branches branch
+  branches=$(git --no-pager branch -vv) &&
+  branch=$(echo "$branches" | fzf +m) &&
+  git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
+}
+
+# Interactive git checkout remote branches
+gcorf() {
+  local branches branch
+  branches=$(git branch --all | grep -v HEAD) &&
+  branch=$(echo "$branches" | fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+  git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+}
+
+# Interactive git log
+gll() {
+  git log --graph --color=always \
+      --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
+  fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
+      --bind "ctrl-m:execute:
+                (grep -o '[a-f0-9]\{7\}' | head -1 |
+                xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
+                {}
+FZF-EOF"
+}
+
+# Interactive git add
+gaaf() {
+  git status --porcelain | fzf -m --ansi --preview 'git diff --color=always {2}' | awk '{print $2}' | xargs git add
+}
+
+
+# bun completions
+[ -s "/Users/sahil/.bun/_bun" ] && source "/Users/sahil/.bun/_bun"
+
+export BOBSHELL_API_KEY=""
+export IBMCLOUD_API_KEY=""
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+export PATH="$PATH:$(go env GOPATH)/bin"
